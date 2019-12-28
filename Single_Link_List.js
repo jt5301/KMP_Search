@@ -85,7 +85,7 @@ class SinglyLinkedList{
     100 -> 201 -> 250 -> 350 -> 999 turns into:
     head                        tail
 
-    100 -> 201 -> 250 -> 350 -> 999
+    100 <- 201 <- 250 <- 350 <- 999
     tail                        head
     or
     999 -> 350 -> 250 -> 201 -> 100
@@ -108,7 +108,7 @@ class SinglyLinkedList{
     /*in first iteration,
      node is 100
      next is 201, acquired from node.next(saved before next line changes the value)
-     node.next set to null(prev)
+     node.next set to prev(null)
      variable prev is set to node, 100
      variable node is set to next, 201
 
