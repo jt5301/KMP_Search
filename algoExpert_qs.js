@@ -108,4 +108,30 @@ function swap(array, ind1,ind2){
   array[ind2] = temp
 }
 
+//medium group anagrams q
+
+function groupAnagrams(words) {
+  let anagramArray = []
+    let wordsHash = {}
+    for(let i = 0;i<words.length;i++){
+        let currentWord = stringSort(words[i])
+        if(!wordsHash[currentWord])wordsHash[currentWord]=[i]
+        else wordsHash[currentWord].push(i)
+    }
+    for(let key in wordsHash){
+        let anagramGroup = []
+        let indices = wordsHash[key]
+        for(let i = 0; i<indices.length;i++){
+            anagramGroup.push(words[indices[i]])
+        }
+        anagramArray.push(anagramGroup)
+    }
+    return anagramArray
+}
+
+function stringSort (word){
+    let array = word.split('')
+    array.sort()
+    return array.join('')
+}
 
