@@ -37,3 +37,20 @@ var threeSum = function(nums) {
       }
       return nums
   }
+
+
+//container w most water
+
+//brute force
+var maxArea = function(height) {
+  let currentHighest = 0
+
+  for(let i = 0; i<height.length;i++){
+    for(let k = i+1;k<height.length;k++){
+        let lowest = Math.min(height[i],height[k])
+        let tempHighest = lowest * (k-i)
+        currentHighest = Math.max(currentHighest,tempHighest)
+    }
+  }
+  return currentHighest
+};
