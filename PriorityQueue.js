@@ -1,9 +1,19 @@
-class MaxBinaryHeap{
-  constructor(){
-    this.values=[41,39,33,18,27,12]
+//essentially a min heap:
+
+class Node{
+  constructor(val, priority){
+    this.val = val
+    this.priority = priority
   }
-  insert(element){
-    this.values.push(element)
+}
+
+class PriorityQueue{//min heap, where root is lowest number
+  constructor(){
+    this.values=[]
+  }
+  enqueue(val,priority){
+    let newNode = new Node(val,priority)
+    this.values.push(newNode)
     this.bubbleUp()//will insert the new element into the correct place
   }
   bubbleUp(){
@@ -12,23 +22,24 @@ class MaxBinaryHeap{
     while(idx>0){
       let parentIdx = Math.floor((idx-1)/2)
       let parent = this.values[parentIdx]
-      if(element<=parent)break
+      if(element.priority>=parent.priority)break
         this.values[parentIdx] = element
         this.values[idx] = parent
         idx = parentIdx
     }
   }
-  extract(){
+  dequeue(){
     let root = this.values[0]
     this.values[0] = this.values[this.values.length-1]
     this.values[this.values.length-1] = root
+    console.log(this.values)
     let currentIdx = 0
     let leftChild = (currentIdx*2)+1
     let rightChild = (currentIdx*2)+2
 
     while(this.values[currentIdx] < this.values[leftChild] || this.values[currentIdx] < this.values[rightChild]){
-      let toSwap = Math.max(this.values[rightChild],this.values[leftChild])
-      if(toSwap === this.values[rightChild]){
+      let toSwap = Math.min(this.values[rightChild],this.values[leftChild])
+      if(toSwap.priority === this.values[rightChild].priority){
         this.values[rightChild]= this.values[currentIdx]
         this.values[currentIdx] = toSwap
         currentIdx = rightChild
@@ -44,6 +55,8 @@ class MaxBinaryHeap{
     return this.values.pop()
   }
 }
-let heap = new MaxBinaryHeap()
-heap.insert(55)
-console.log(heap.values)
+let ER = new PriorityQueue()
+ER.enqueue('cold',5)
+ER.enqueue('shot',1)
+ER.enqueue('fever',4)
+
