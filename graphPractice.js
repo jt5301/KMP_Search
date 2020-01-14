@@ -25,17 +25,38 @@ class Graph{
     }
     delete this.adjacencyList[vertex]
   }
+  DFSTraversal(vertex){
+    let allNodes = []
+    let visited = {}
+    function traversalHelper(currentVertex, list){
+      allNodes.push(currentVertex)
+      visited[currentVertex] = true
+      let vertexEdges = list[currentVertex]
+      for(let i = 0;i<vertexEdges.length;i++){
+        if(!visited[vertexEdges[i]]){
+          traversalHelper(vertexEdges[i],list)
+        }
+      }
+    }
+    traversalHelper(vertex, this.adjacencyList)
+    return allNodes
+  }
 }
+
+
 let g = new Graph()
-g.addVertex("Dallas");
-g.addVertex("Tokyo");
-g.addVertex("Aspen");
-g.addVertex("Los Angeles");
-g.addVertex("Hong Kong")
-g.addEdge("Dallas", "Tokyo");
-g.addEdge("Dallas", "Aspen");
-g.addEdge("Hong Kong", "Tokyo");
-g.addEdge("Hong Kong", "Dallas");
-g.addEdge("Los Angeles", "Hong Kong");
-g.addEdge("Los Angeles", "Aspen");
+g.addVertex("A");
+g.addVertex("B");
+g.addVertex("C");
+g.addVertex("D");
+g.addVertex("E");
+g.addVertex("F")
+g.addEdge("A", 'B');
+g.addEdge("A", 'C');
+g.addEdge("B", 'D');
+g.addEdge("C", 'E');
+g.addEdge('D', 'E');
+g.addEdge("D", 'F');
+g.addEdge("E", 'F');
+
 
