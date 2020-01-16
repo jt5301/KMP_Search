@@ -3,28 +3,28 @@ class Graph{
     this.adjacencyList = {}
   }
   addVertex(vertex){
-    if(!this.adjacencyList[vertex])this.adjacencyList[vertex]  = []
+    if(!this.adjacencyList[vertex])this.adjacencyList[vertex] = []
   }
-  addEdge(vertex1,vertex2){//to be a directed graph, just add one of the following additions. This currently is undirected
+  addEdges(vertex1,vertex2){
     this.adjacencyList[vertex1].push(vertex2)
     this.adjacencyList[vertex2].push(vertex1)
   }
-  removeEdge(vertex1,vertex2){
+  removeEdges(vertex1,vertex2){
     this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter((current)=>{
-      if(current != vertex2) return current
+      if(current != vertex2)return current
     })
     this.adjacencyList[vertex2] = this.adjacencyList[vertex2].filter((current)=>{
-      if(current != vertex1) return current
+      if(current != vertex1)return current
     })
   }
   removeVertex(vertex){
     for(let key in this.adjacencyList){
-      if(this.adjacencyList[key].includes(vertex)){
-        this.removeEdge(vertex, key)
-      }
+       if(this.adjacencyList[key].includes(vertex)){
+         this.removeEdge(vertex, key)
+       }
+     }
+     delete this.adjacencyList[vertex]
     }
-    delete this.adjacencyList[vertex]
-  }
   DFSTraversal(vertex){
     let allNodes = []
     let visited = {}
@@ -32,6 +32,7 @@ class Graph{
       allNodes.push(currentVertex)
       visited[currentVertex] = true
       let vertexEdges = list[currentVertex]
+      if(vertexEdges.length===0)return
       for(let i = 0;i<vertexEdges.length;i++){
         if(!visited[vertexEdges[i]]){
           traversalHelper(vertexEdges[i],list)
