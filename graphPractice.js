@@ -26,21 +26,38 @@ class Graph{
      delete this.adjacencyList[vertex]
     }
   DFSTraversal(vertex){
-    let allNodes = []
     let visited = {}
-    function traversalHelper(currentVertex, list){
-      allNodes.push(currentVertex)
-      visited[currentVertex] = true
-      let vertexEdges = list[currentVertex]
-      if(vertexEdges.length===0)return
-      for(let i = 0;i<vertexEdges.length;i++){
-        if(!visited[vertexEdges[i]]){
-          traversalHelper(vertexEdges[i],list)
+    let nodePath = []
+    function traversalHelper(node,list){
+      nodePath.push(node)
+      visited[node] = true
+      for(let i = 0;i<list[node].length;i++){
+        console.log(list[node][i])
+        if(!visited[list[node][i]]){
+          traversalHelper(list[node][i], list)
         }
       }
     }
-    traversalHelper(vertex, this.adjacencyList)
-    return allNodes
+    traversalHelper(vertex,this.adjacencyList)
+    return nodePath
+  }
+  DFSIterative(vertex){
+    let visited = {}
+    let nodePath = [vertex]
+    let returnPath = []
+    while(nodePath.length != 0){
+      let currentVertex = nodePath.pop()
+      if(!visited[currentVertex]){
+        visited[currentVertex] = true
+        returnPath.push(currentVertex)
+        for(let i = 0; i<this.adjacencyList[currentVertex].length;i++){
+          if(!visited[this.adjacencyList[currentVertex]]){
+          nodePath.push(this.adjacencyList[currentVertex][i])
+          }
+        }
+      }
+    }
+    return returnPath
   }
 }
 
