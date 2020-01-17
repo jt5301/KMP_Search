@@ -59,6 +59,23 @@ class Graph{
     }
     return returnPath
   }
+  BFSTraversal(vertex){
+    let visited = {}
+    let nodePath = [vertex]
+    let returnPath = []
+    while(nodePath.length != 0){
+      let currentVertex = nodePath.shift()
+      returnPath.push(currentVertex)
+      visited[currentVertex] = true
+      let vertexConnects = this.adjacencyList[currentVertex]
+      vertexConnects.forEach((current)=>{
+        if(!visited[current]){
+          visited[current]=true
+          nodePath.push(current)}
+      })
+    }
+    return returnPath
+  }
 }
 
 
