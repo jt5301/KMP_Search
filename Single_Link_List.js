@@ -34,7 +34,6 @@ class SinglyLinkedList{
       this.tail = pre
       pre.next = null
       this.length -=1
-      console.log(pre)
       return currentNode.val
   }
   shift(){
