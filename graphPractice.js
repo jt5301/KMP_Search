@@ -32,7 +32,7 @@ class Graph{
       nodePath.push(node)
       visited[node] = true
       for(let i = 0;i<list[node].length;i++){
-        console.log(list[node][i])
+
         if(!visited[list[node][i]]){
           traversalHelper(list[node][i], list)
         }
