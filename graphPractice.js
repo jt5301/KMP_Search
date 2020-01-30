@@ -1,97 +1,64 @@
-class Graph{
-  constructor(){
-    this.adjacencyList = {}
+class Graph {
+  constructor() {
+    this.adjacencyList = {};
   }
-  addVertex(vertex){
-    if(!this.adjacencyList[vertex])this.adjacencyList[vertex] = []
+  addVertex(vertex) {
+    this.adjacencyList[vertex] = []; //adds a vertex / node and initializes it with an empty array to store edges / adjacent vertexes
   }
-  addEdges(vertex1,vertex2){
-    this.adjacencyList[vertex1].push(vertex2)
-    this.adjacencyList[vertex2].push(vertex1)
+  addEdge(vertex1, vertex2) {
+    //add adjacent vertexes
+    this.adjacencyList[vertex1].push(vertex2);
+    this.adjacencyList[vertex2].push(vertex1);
   }
-  removeEdges(vertex1,vertex2){
-    this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter((current)=>{
-      if(current != vertex2)return current
-    })
-    this.adjacencyList[vertex2] = this.adjacencyList[vertex2].filter((current)=>{
-      if(current != vertex1)return current
-    })
-  }
-  removeVertex(vertex){
-    for(let key in this.adjacencyList){
-       if(this.adjacencyList[key].includes(vertex)){
-         this.removeEdge(vertex, key)
-       }
-     }
-     delete this.adjacencyList[vertex]
+  removeVertex(vertex) {
+    for (let key in this.adjacencyList) {
+      this.adjacencyList[key] = this.adjacencyList[key].filter(current => {
+        if (current != vertex) return current;
+      });
     }
-  DFSTraversal(vertex){
-    let visited = {}
-    let nodePath = []
-    function traversalHelper(node,list){
-      nodePath.push(node)
-      visited[node] = true
-      for(let i = 0;i<list[node].length;i++){
-
-        if(!visited[list[node][i]]){
-          traversalHelper(list[node][i], list)
+    delete this.adjacencyList[vertex];
+  }
+  removeEdge(vertex1, vertex2) {
+    this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter(
+      current => {
+        if (current != vertex2) return current;
+      }
+    );
+    this.adjacencyList[vertex2] = this.adjacencyList[vertex2].filter(
+      current => {
+        if (current != vertex1) return current;
+      }
+    );
+  }
+  DFS(vertex) {
+    const visited = { vertex: 1 };
+    const path = [vertex];
+    function dfsHelper(vertex, list) {
+      for (let i = 0; i < list[vertex].length; i++) {
+        let curVertex = list[vertex][i];
+        if (!visited[curVertex]) {
+          visited[curVertex] += 1;
+          path.push(curVertex);
+          dfsHelper(curVertex, list);
         }
       }
     }
-    traversalHelper(vertex,this.adjacencyList)
-    return nodePath
-  }
-  DFSIterative(vertex){
-    let visited = {}
-    let nodePath = [vertex]
-    let returnPath = []
-    while(nodePath.length != 0){
-      let currentVertex = nodePath.pop()
-      if(!visited[currentVertex]){
-        visited[currentVertex] = true
-        returnPath.push(currentVertex)
-        for(let i = 0; i<this.adjacencyList[currentVertex].length;i++){
-          if(!visited[this.adjacencyList[currentVertex]]){
-          nodePath.push(this.adjacencyList[currentVertex][i])
-          }
-        }
-      }
-    }
-    return returnPath
-  }
-  BFSTraversal(vertex){
-    let visited = {}
-    let nodePath = [vertex]
-    let returnPath = []
-    while(nodePath.length != 0){
-      let currentVertex = nodePath.shift()
-      returnPath.push(currentVertex)
-      visited[currentVertex] = true
-      let vertexConnects = this.adjacencyList[currentVertex]
-      vertexConnects.forEach((current)=>{
-        if(!visited[current]){
-          visited[current]=true
-          nodePath.push(current)}
-      })
-    }
-    return returnPath
+    dfsHelper(vertex, this.adjacencyList);
+    return path;
   }
 }
 
-
-let g = new Graph()
-g.addVertex("A");
-g.addVertex("B");
-g.addVertex("C");
-g.addVertex("D");
-g.addVertex("E");
-g.addVertex("F")
-g.addEdge("A", 'B');
-g.addEdge("A", 'C');
-g.addEdge("B", 'D');
-g.addEdge("C", 'E');
+let g = new Graph();
+g.addVertex('A');
+g.addVertex('B');
+g.addVertex('C');
+g.addVertex('D');
+g.addVertex('E');
+g.addVertex('F');
+g.addEdge('A', 'B');
+g.addEdge('A', 'C');
+g.addEdge('B', 'D');
+g.addEdge('C', 'E');
 g.addEdge('D', 'E');
-g.addEdge("D", 'F');
-g.addEdge("E", 'F');
-
-
+g.addEdge('D', 'F');
+g.addEdge('E', 'F');
