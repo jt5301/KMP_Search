@@ -31,13 +31,14 @@ class Graph {
     );
   }
   DFS(vertex) {
-    const visited = { vertex: 1 };
-    const path = [vertex];
+    let visited = {};
+    visited[vertex] = true;
+    let path = [vertex];
     function dfsHelper(vertex, list) {
       for (let i = 0; i < list[vertex].length; i++) {
         let curVertex = list[vertex][i];
         if (!visited[curVertex]) {
-          visited[curVertex] += 1;
+          visited[curVertex] = true;
           path.push(curVertex);
           dfsHelper(curVertex, list);
         }
