@@ -3,22 +3,13 @@ class Graph {
     this.adjacencyList = {};
   }
   addVertex(vertex) {
-    this.adjacencyList[vertex] = []; //adds a vertex / node and initializes it with an empty array to store edges / adjacent vertexes
+    if (!this.adjacencyList[vertex]) this.adjacencyList[vertex] = [];
   }
-  addEdge(vertex1, vertex2) {
-    //add adjacent vertexes
+  addEdges(vertex1, vertex2) {
     this.adjacencyList[vertex1].push(vertex2);
     this.adjacencyList[vertex2].push(vertex1);
   }
-  removeVertex(vertex) {
-    for (let key in this.adjacencyList) {
-      this.adjacencyList[key] = this.adjacencyList[key].filter(current => {
-        if (current != vertex) return current;
-      });
-    }
-    delete this.adjacencyList[vertex];
-  }
-  removeEdge(vertex1, vertex2) {
+  removeEdges(vertex1, vertex2) {
     this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter(
       current => {
         if (current != vertex2) return current;
@@ -30,22 +21,65 @@ class Graph {
       }
     );
   }
-  DFS(vertex) {
+  removeVertex(vertex) {
+    for (let key in this.adjacencyList) {
+      if (this.adjacencyList[key].includes(vertex)) {
+        this.removeEdge(vertex, key);
+      }
+    }
+    delete this.adjacencyList[vertex];
+  }
+  DFSTraversal(vertex) {
     let visited = {};
-    visited[vertex] = true;
-    let path = [vertex];
-    function dfsHelper(vertex, list) {
-      for (let i = 0; i < list[vertex].length; i++) {
-        let curVertex = list[vertex][i];
-        if (!visited[curVertex]) {
-          visited[curVertex] = true;
-          path.push(curVertex);
-          dfsHelper(curVertex, list);
+    let nodePath = [];
+    function traversalHelper(node, list) {
+      nodePath.push(node);
+      visited[node] = true;
+      for (let i = 0; i < list[node].length; i++) {
+        if (!visited[list[node][i]]) {
+          traversalHelper(list[node][i], list);
         }
       }
     }
-    dfsHelper(vertex, this.adjacencyList);
+    traversalHelper(vertex, this.adjacencyList);
+    return nodePath;
+  }
+  DFSIterative(vertex) {
+    let path = [];
+    let visited = {};
+    let stack = [vertex];
+    while (stack.length != 0) {
+      let vertex = stack.pop();
+      if (!visited[vertex]) {
+        path.push(vertex);
+        visited[vertex] = true;
+        for (let i = 0; i < this.adjacencyList[vertex].length; i++) {
+          let curArray = this.adjacencyList[vertex];
+          if (!visited[curArray[i]]) {
+            stack.push(curArray[i]);
+          }
+        }
+      }
+    }
     return path;
+  }
+  BFS(vertex) {
+    let queue = [vertex];
+    let visited = {};
+    let returnPath = [];
+    while (queue.length != 0) {
+      let curVer = queue.shift();
+      if (!visited[curVer]) {
+        visited[curVer] = true;
+        returnPath.push(curVer);
+        this.adjacencyList[curVer].forEach(current => {
+          if (!visited[current]) {
+            queue.push(current);
+          }
+        });
+      }
+    }
+    return returnPath;
   }
 }
 
