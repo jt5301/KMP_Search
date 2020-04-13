@@ -1,5 +1,5 @@
 //Given an array nums of n integers, are there elements a, b, c in nums such that a + b + c = 0? Find all unique triplets in the array which gives the sum of zero.
-var threeSum = function(nums) {
+var threeSum = function (nums) {
   let sumArrays = [];
   let sortedArray = bubbleSort(nums);
   for (let i = 0; i < sortedArray.length - 2; i++) {
@@ -45,7 +45,7 @@ function bubbleSort(nums) {
 //container w most water
 
 //brute force
-var maxArea = function(height) {
+var maxArea = function (height) {
   let currentHighest = 0;
 
   for (let i = 0; i < height.length; i++) {
@@ -59,7 +59,7 @@ var maxArea = function(height) {
 };
 //w pointers
 
-var maxArea = function(height) {
+var maxArea = function (height) {
   let left = 0;
   let right = height.length - 1;
   let mostWater = 0;
@@ -83,7 +83,7 @@ var maxArea = function(height) {
 
 A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers.*/
 
-var isHappy = function(n) {
+var isHappy = function (n) {
   let recorded = {};
   let numArr = n
     .toString()
@@ -118,7 +118,7 @@ Output: 2
 Explanation: The process is like: 3 + 8 = 11, 1 + 1 = 2.
              Since 2 has only one digit, return it.*/
 
-var addDigits = function(num) {
+var addDigits = function (num) {
   let numArray = num
     .toString()
     .split('')
@@ -160,7 +160,7 @@ Input: 14
 Output: false
 Explanation: 14 is not ugly since it includes another prime factor 7.*/
 
-var isUgly = function(num) {
+var isUgly = function (num) {
   if (num === 0) return false;
   while (num != 1) {
     if (num % 5 === 0) num = num / 5;
@@ -185,7 +185,7 @@ Input: [7,1,5,3,6,4]
 Output: 5
 Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
              Not 7-1 = 6, as selling price needs to be larger than buying price. */
-var maxProfit = function(prices) {
+var maxProfit = function (prices) {
   let minPrice = prices[0];
   let maxProfit = 0;
 
@@ -206,7 +206,7 @@ Input: [-2,1,-3,4,-1,2,1,-5,4],
 Output: 6
 Explanation: [4,-1,2,1] has the largest sum = 6.*/
 
-var maxSubArray = function(nums) {
+var maxSubArray = function (nums) {
   let maxEndingHere = nums[0];
   let maxSoFar = nums[0];
 
@@ -220,7 +220,7 @@ var maxSubArray = function(nums) {
 
 //balanced brackets solution
 
-var isValid = function(s) {
+var isValid = function (s) {
   let openingBrackets = '({[';
   let bracketLookup = {
     '[': ']',
@@ -265,7 +265,7 @@ Output: 7 -> 8 -> 0 -> 7
  */
 /**
  */
-var addTwoNumbers = function(l1, l2) {
+var addTwoNumbers = function (l1, l2) {
   let arr1 = [];
   let arr2 = [];
   while (l1 || l2) {
@@ -324,7 +324,7 @@ var addTwoNumbers = function(l1, l2) {
 // Output: 7 -> 0 -> 8
 // Explanation: 342 + 465 = 807.
 
-var addTwoNumbers = function(l1, l2) {
+var addTwoNumbers = function (l1, l2) {
   let l1Arr = [];
   let l2Arr = [];
   let totalArr = [];
@@ -374,7 +374,7 @@ var addTwoNumbers = function(l1, l2) {
 
 //Coin change problem. Completely misread, but should answer: If given an option of 3 coins: 1,2,5, how many coins
 //will it take to make up the amount given?
-var coinChange = function(amount) {
+var coinChange = function (amount) {
   if (amount < 0) return -1;
   let numOfCoins = 0;
   while (amount > 0) {
@@ -392,7 +392,7 @@ var coinChange = function(amount) {
 
 //coin change problem: min number to make amount
 
-var coinChange = function(coins, amount) {
+var coinChange = function (coins, amount) {
   let minArray = [0];
   for (let i = 0; i < amount; i++) {
     minArray.push(Infinity);
@@ -420,7 +420,7 @@ var coinChange = function(coins, amount) {
 
 // Initially, all next pointers are set to NULL.
 
-var connect = function(root) {
+var connect = function (root) {
   if (!root) return null;
   let node = root;
   let queue = [node];
@@ -440,4 +440,44 @@ var connect = function(root) {
     queue = temp;
   }
   return node;
+};
+
+
+// Given an array of strings, group anagrams together.
+
+// Example:
+
+// Input: ["eat", "tea", "tan", "ate", "nat", "bat"],
+// Output:
+// [
+//   ["ate","eat","tea"],
+//   ["nat","tan"],
+//   ["bat"]
+// ]
+
+
+var groupAnagrams = function (strs) {
+  let outputArray = []
+  let sortedArray = []
+
+  strs.forEach((current) => {
+    sortedArray.push(current.split('').sort().join(''))
+  })
+
+
+  while (strs.length != 0) {
+    let group = []
+    let target = sortedArray[0]
+    for (let i = 0; i < strs.length; i++) {
+      let compare = sortedArray[i]
+      if (compare === target) {
+        group.push(strs[i])
+        strs.splice(i, 1)
+        sortedArray.splice(i, 1)
+        i -= 1
+      }
+    }
+    outputArray.push(group)
+  }
+  return outputArray
 };
