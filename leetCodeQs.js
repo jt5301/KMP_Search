@@ -541,3 +541,41 @@ var checkValidString = function (s) {
   }) //goes through remaining to match left parens to stars
   return balanced
 };
+
+
+// Given two strings, one is a subsequence if all of the elements of the
+// first string occur in the same order within the second string. They do
+// not have to be contiguous in the second string, but order must be
+// maintained. For example, given the string 'I like cheese', the words ('I',
+// 'cheese') are one possible subsequence of that string. Words are space
+// delimited.
+// Given two strings, s and t, where t is a subsequence of s, report the
+// words of s, missing in t (case sensitive), in the order they are missing.
+// Example
+// s = 'I like cheese'
+// t = 'like'
+// Then 'like' is the subsequence, and ['I', 'cheese'] is the list of missing
+// words, in order.
+// Function Description
+// Complete the function missingWords in the editor below.
+// missingWords has the following parameter(s):
+// string s: a sentence of space-separated words
+// string t: a sentence of space-separated words
+// Returns:
+// string[i]: an array of strings that contains all words in s that are
+// missing from t, in the order they occur within s
+
+function missingWords(string1, string2) {
+  let str1Arr = string1.split(' ')
+  let str2Arr = string2.split(' ')
+  let str2Obj = {}
+  let missingWords = []
+
+  str2Arr.forEach((current) => {
+    str2Obj[current] = true
+  })
+  str1Arr.forEach((current) => {
+    if (!str2Obj[current]) missingWords.push(current)
+  })
+  return missingWords
+}
