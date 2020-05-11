@@ -628,3 +628,30 @@ var majorityElement = function (nums) {
     if (numsHash[nums[i]] >= numSize) return nums[i]
   }
 };
+
+
+//invert a binary tree
+//       4
+//     /   \
+//   2       7
+//   / \   / \
+// 1    3 6    9
+
+// 4
+// /   \
+// 7     2
+// / \   / \
+// 9   6 3   1
+var invertTree = function (root) {
+  if (!root) return null
+  function invert(rootNode) {
+    let temp = rootNode.left
+    rootNode.left = rootNode.right
+    rootNode.right = temp
+    if (rootNode.left) invert(rootNode.left)
+    if (rootNode.right) invert(rootNode.right)
+  }
+  invert(root)
+  return root
+
+};
