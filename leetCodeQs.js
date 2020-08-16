@@ -662,6 +662,7 @@ var invertTree = function (root) {
 const files = ['\\server1\\images\\Healthcare\\8342-St Botolphs Corner\\photographs\\foo.tif', '\\server1\\images\\Commercial\\9453-Range Grove\\rendered\\bar.jpg']
 
 let regex = /\\server1\\images\\(\w+)\\([\w-\s]+)\\(\w+)\\(\w+)/
+let
 // let match = regex.exec(file)
 //   console.log(match)
 for (let i = 0; i < files.length; i++) {
@@ -671,4 +672,41 @@ for (let i = 0; i < files.length; i++) {
   console.log(match[2])
   console.log(match[3])
   console.log(match[4])
+}
+
+/*Single Cycle Check : algoexpert
+  Given array of integers where each integer reps a jump in value.
+
+*/
+function hasSingleCycle(array) {
+  let indexHash = {}
+  for (let i = 0; i < array.length; i++) {
+    indexHash[i] = false
+  }
+  debugger
+  let curIndex = 0
+  while (true) {
+    let jump = 0
+    if (array[curIndex] > array.length) {
+      jump = array[curIndex] % array.length
+      curIndex += jump
+    }
+    else {
+      if (array[curIndex] < 0) {
+        jump = Math.abs(array[curIndex]) % array.length
+        curIndex -= jump
+      }
+    }
+    if (jump === 0) curIndex += array[curIndex]
+    if (curIndex > array.length - 1) curIndex = curIndex - array.length
+    if (curIndex < 0) curIndex = array.length + (curIndex % array.length)
+    if (indexHash[curIndex] === true) break
+    indexHash[curIndex] = true
+  }
+  for (let i in indexHash) {
+    if (indexHash[i] === false) {
+      return false
+    }
+  }
+  return true
 }
