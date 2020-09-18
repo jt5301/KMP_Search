@@ -820,35 +820,29 @@ Here are all the possible sums:
 As you can see, there are 9 distinct sums that can be created from non-empty groupings of your coins. */
 
 function possibleSums(coins, quantity) {
-  let coinsArray = []
-  let coinCounter = 0
   let quantCounter = 0
-  while (coinCounter < coins.length) {
-    if (quantCounter < quantity[coinCounter]) {
-      quantCounter += 1
-      coinsArray.push(coins[coinCounter])
-      continue
-    }
-    coinCounter += 1
-    quantCounter = 0
-  }
   let hashSet = new Set()
   let currentCoinInd = 0
-  while (currentCoinInd < coinsArray.length) {
-    if (hashSet.size == 0) {
-      hashSet.add(coins[currentCoinInd])
-    }
-    else {
-      let toAdd = []
-      hashSet.forEach((current) => {
-        toAdd.push(coinsArray[currentCoinInd] + current)
-      })
-      toAdd.forEach((current) => {
-        hashSet.add(current)
-      })
-      if (!hashSet.has(coinsArray[currentCoinInd])) hashSet.add(coinsArray[currentCoinInd])
+  while (currentCoinInd < coins.length) {
+    if (quantCounter < quantity[currentCoinInd]) {
+      if (hashSet.size == 0) {
+        hashSet.add(coins[currentCoinInd])
+      }
+      else {
+        let toAdd = []
+        hashSet.forEach((current) => {
+          toAdd.push(coins[currentCoinInd] + current)
+        })
+        toAdd.forEach((current) => {
+          hashSet.add(current)
+        })
+        if (!hashSet.has(coins[currentCoinInd])) hashSet.add(coins[currentCoinInd])
+      }
+      quantCounter += 1
+      continue
     }
     currentCoinInd += 1
+    quantCounter = 0
   }
   return hashSet.size
 }
