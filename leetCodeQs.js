@@ -872,7 +872,6 @@ function isBeautifulString(inputString) {
     if (!letterHash[letter]) letterHash[letter] = 1
     else letterHash[letter] += 1
   }
-  let beautiful = false
   let lastLetter = 'a'
   for (let i = 1; i < alphabet.length; i++) {
     if (letterHash[alphabet[i]]) lastLetter = alphabet[i]
@@ -882,4 +881,68 @@ function isBeautifulString(inputString) {
     if (letterHash[alphabet[i]] > letterHash[alphabet[i - 1]] || !letterHash[alphabet[i - 1]]) return false
   }
   return true
+}
+
+//Find if a substring is a valid substring of string, regardless of order
+
+function findSubString(string, substring) {
+  let letterHash = {}
+  let ssLength = substring.length
+  for (let letter of substring) {
+    if (!letterHash[letter]) letterHash[letter] = 1
+    else letterHash[letter] += 1
+  }
+  for (let i = 0; i < string.length; i++) {
+    if (letterHash[string[i]]) {
+      let slice = string.slice(i, i + ssLength)
+      let copy = { ...letterHash }
+      console.log(copy)
+      let possibleReturn = helper(slice, copy)
+      if (possibleReturn) return true
+    }
+  }
+  return false
+}
+
+function helper(string, letterHash) {
+  //first check for stray letters
+  for (let letter of string) {
+    if (!letterHash[letter]) return false
+  }
+  for (let letter of string) {
+    letterHash[letter] -= 1
+  }
+  let check = 0
+  for (let letter in letterHash) {
+    check += letterHash[letter]
+  }
+  if (check === 0) return true
+  else return false
+}
+
+console.log(findSubString('bloomberg', 'mooob'))
+
+
+// Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path.
+
+// Note: You can only move either down or right at any point in time.
+
+const minPathSum = (grid) => {
+  const solutions = []
+  for (let row in grid) {
+    solutions.push(new Array(grid[0].length).fill(0))
+  }
+  solutions[0][0] = grid[0][0]
+  for (let i = 1; i < grid[0].length; i++) {
+    solutions[0][i] = solutions[0][i - 1] + grid[0][i]
+  }
+  for (let i = 1; i < grid.length; i++) {
+    solutions[i][0] = solutions[i - 1][0] + grid[i][0]
+  }
+  for (let row = 1; row < grid.length; row++) {
+    for (let col = 1; col < grid[0].length; col++) {
+      solutions[row][col] = Math.min(solutions[row - 1][col] + grid[row][col], solutions[row][col - 1] + grid[row][col])
+    }
+  }
+  return solutions[solutions.length - 1][solutions[0].length - 1]
 }
