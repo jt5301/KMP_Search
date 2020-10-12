@@ -946,3 +946,5 @@ const minPathSum = (grid) => {
   }
   return solutions[solutions.length - 1][solutions[0].length - 1]
 }
+
+
