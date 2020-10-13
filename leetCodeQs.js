@@ -987,3 +987,21 @@ var rob = function (nums) {
   }
   return returnLargest
 };
+
+//Redoing coinchange to practice bottom up
+
+var coinChange = function (coins, amount) {
+  let tab = new Array(amount + 1).fill(Infinity)
+  tab[0] = 0
+  for (let i = 1; i < tab.length; i++) {
+    for (let k = 0; k < coins.length; k++) {
+      let amountLeft = i - coins[k]
+      if (amountLeft >= 0 && tab[amountLeft] != Infinity) {
+        tab[i] = Math.min(tab[i], tab[amountLeft] + 1)
+      }
+    }
+  }
+  console.log(tab)
+  if (tab[tab.length - 1] === Infinity) return -1
+  return tab[tab.length - 1]
+};
