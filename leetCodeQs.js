@@ -1001,7 +1001,32 @@ var coinChange = function (coins, amount) {
       }
     }
   }
-  console.log(tab)
   if (tab[tab.length - 1] === Infinity) return -1
   return tab[tab.length - 1]
+};
+
+
+/*
+Given an array of non-negative integers, you are initially positioned at the first index of the array.
+
+Each element in the array represents your maximum jump length at that position.
+
+Determine if you are able to reach the last index.
+
+Work from the end position towards the start. With each index to the left, see if that
+num can reach the current index, that can eventually reach the end index
+*/
+
+var canJump = function (nums) {
+  let validIndices = new Array(nums.length).fill(undefined)
+  validIndices[validIndices.length - 1] = 'Good'
+  let lastGoodIndex = validIndices.length - 1
+  for (let i = validIndices.length - 2; i >= 0; i--) {
+    if (i + nums[i] >= lastGoodIndex) {
+      lastGoodIndex = i
+      validIndices[i] = 'Good'
+    }
+  }
+  if (validIndices[0] === 'Good') return true
+  else return false
 };
