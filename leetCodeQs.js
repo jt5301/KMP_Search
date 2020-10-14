@@ -1050,3 +1050,58 @@ var jump = function (nums) {
   }
   return successArray[successArray.length - 1]
 };
+
+
+//KNAPSACK
+function knapsackProblem(items, capacity) {
+  let ksArr = []
+  //sort items by weight from lowest to highest
+  let sortedItems = [...items]
+  sortedItems.sort((a, b) => {
+    return a[1] - b[1]
+  })
+  for (let row of items) {
+    ksArr.push(new Array(capacity + 1).fill(0))
+  }
+  //fill in first row first: assume only one item and fill in at each capacity up to target capacity
+  for (let i = 0; i < ksArr[0].length; i++) {
+    if (sortedItems[0][1] <= i) {
+      ksArr[0][i] = sortedItems[0][0]
+    }
+  }
+  for (let row = 1; row < ksArr.length; row++) {
+    for (let col = 0; col < ksArr[row].length; col++) {
+      if (sortedItems[row][1] <= col) {
+        ksArr[row][col] = Math.max(ksArr[row - 1][col], sortedItems[row][0] + ksArr[row - 1][col - (sortedItems[row][1])])
+      }
+      else ksArr[row][col] = ksArr[row - 1][col]
+    }
+  }
+  let returnItems = []
+  let returnItemIndices = []
+  let row = ksArr.length - 1
+  let col = capacity
+  let pointer = ksArr[row][col]
+
+  //need to traverse through the ksArray to get items that make up capacity / value
+  while (pointer != 0) {
+    if (row === 0) {
+      returnItems.push(sortedItems[0])
+      break
+    }
+    if (ksArr[row - 1][col] === pointer) {
+      pointer = ksArr[row - 1][col]
+      row -= 1
+    }
+    else {
+      returnItems.push(sortedItems[row])
+      col -= sortedItems[row][1]
+      row -= 1
+      pointer = ksArr[row][col]
+    }
+  }
+  for (let returnItem of returnItems) {
+    returnItemIndices.push(items.indexOf(returnItem))
+  }
+  return [ksArr[ksArr.length - 1][capacity], returnItemIndices]
+}
