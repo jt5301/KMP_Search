@@ -1319,3 +1319,67 @@ BrowserHistory.prototype.forward = function (steps) {
   this.pointer += steps
   return this.urls[this.pointer]
 };
+
+//Given an unsorted array of integers, find the length of longest increasing subsequence.
+var lengthOfLIS = function (nums) {
+  if (nums.length === 0) return 0
+  let tab = [1]
+  for (let i = 1; i < nums.length; i++) {
+    let currentHighest = 1
+    for (let k = i - 1; k >= 0; k--) {
+      if (nums[k] < nums[i]) {
+        currentHighest = Math.max(tab[k] + 1, currentHighest)
+      }
+    }
+    tab.push(currentHighest)
+  }
+  let longest = 0
+  for (let streak of tab) {
+    longest = Math.max(longest, streak)
+  }
+  return longest
+};
+
+/*MAx Sum Increasing Subsequence from algoexpert:
+  write a function that takes in a non-empty array of integers & returns the greatest sum that can be generated
+  from a strictly-increasing subsequence, as well as an array of the numbers in that subsequence
+
+  input:maxSumIncreasingSubsequence([10, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+  output:[45,[1,2,3,4,5,6,7,8,9]]
+*/
+
+function maxSumIncreasingSubsequence(array) {
+  let totals = [array[0]]
+  let lastIndexTracker = [0]
+  for (let i = 1; i < array.length; i++) {
+    let highestTotal = array[i]
+    let lastIndex = i
+    for (let k = i - 1; k >= 0; k--) {
+      if (array[i] > array[k] && array[i] + totals[k] > highestTotal) {
+        highestTotal = array[i] + totals[k]
+        lastIndex = k
+      }
+    }
+    totals.push(highestTotal)
+    lastIndexTracker.push(lastIndex)
+  }
+  let maxSum = -Infinity
+  let indexOfMaxSum = 0
+  for (let i = 0; i < totals.length; i++) {
+    if (totals[i] > maxSum) {
+      maxSum = totals[i]
+      indexOfMaxSum = i
+    }
+  }
+  let path = []
+  while (true) {
+    path.push(array[indexOfMaxSum])
+    if (indexOfMaxSum === lastIndexTracker[indexOfMaxSum]) break
+    indexOfMaxSum = lastIndexTracker[indexOfMaxSum]
+  }
+  path.reverse()
+  let returnSum = path.reduce((accum, current) => {
+    return accum += current
+  }, 0)
+  return [returnSum, path]
+}
