@@ -1351,6 +1351,7 @@ var lengthOfLIS = function (nums) {
 function maxSumIncreasingSubsequence(array) {
   let totals = [array[0]]
   let lastIndexTracker = [0]
+  let maxSum = array[0]
   for (let i = 1; i < array.length; i++) {
     let highestTotal = array[i]
     let lastIndex = i
@@ -1360,17 +1361,11 @@ function maxSumIncreasingSubsequence(array) {
         lastIndex = k
       }
     }
+    maxSum = Math.max(maxSum, highestTotal)
     totals.push(highestTotal)
     lastIndexTracker.push(lastIndex)
   }
-  let maxSum = -Infinity
-  let indexOfMaxSum = 0
-  for (let i = 0; i < totals.length; i++) {
-    if (totals[i] > maxSum) {
-      maxSum = totals[i]
-      indexOfMaxSum = i
-    }
-  }
+  let indexOfMaxSum = totals.indexOf(maxSum)
   let path = []
   while (true) {
     path.push(array[indexOfMaxSum])
