@@ -643,17 +643,13 @@ var majorityElement = function (nums) {
 // / \   / \
 // 9   6 3   1
 var invertTree = function (root) {
-  if (!root) return null
-  function invert(rootNode) {
-    let temp = rootNode.left
-    rootNode.left = rootNode.right
-    rootNode.right = temp
-    if (rootNode.left) invert(rootNode.left)
-    if (rootNode.right) invert(rootNode.right)
-  }
-  invert(root)
+  if (root === null) return root
+  let temp = root.right
+  root.right = root.left
+  root.left = temp
+  invertTree(root.left)
+  invertTree(root.right)
   return root
-
 };
 
 
