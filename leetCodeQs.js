@@ -1429,3 +1429,26 @@ const freeTime = (schedules) => {
 
 freeTime([[[1, 3], [6, 7]], [[2, 4]], [[2, 5], [9, 12]]])
 
+
+//Given a string s, return the longest palindromic substring in s.
+// Input: s = "babad"
+// Output: "bab"
+// Note: "aba" is also a valid answer.
+var longestPalindrome = function (s) {
+  let longestPalin = ''
+  for (let i = 0; i < s.length; i++) {
+    let palin1 = palindromeChecker(s, i, i)
+    let palin2 = palindromeChecker(s, i, i + 1)
+    let possibleLongest = palin1.length >= palin2.length ? palin1 : palin2
+    longestPalin = longestPalin.length >= possibleLongest.length ? longestPalin : possibleLongest
+  }
+  return longestPalin
+};
+function palindromeChecker(string, left, right) {
+  if (string[left] != string[right]) return string[left]
+  while (left >= 0 && right < string.length && string[left] === string[right]) {
+    left -= 1
+    right += 1
+  }
+  return string.slice(left + 1, right)
+}
