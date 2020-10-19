@@ -1,82 +1,50 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class MaxBinaryHeap {
-  constructor() {
-    this.values = [41, 39, 33, 18, 27, 12]
+class maxBinaryHeap {
+  constructor(values) {
+    this.values = values
   }
-  insert(element) {
-    this.values.push(element)
-    this.bubbleUp()//will insert the new element into the correct place
+  insert(value) {
+    this.values.push(value)
+    this.bubbleUp()
   }
   bubbleUp() {
-    let idx = this.values.length - 1
-    const element = this.values[idx]
-    while (idx > 0) {
-      let parentIdx = Math.floor((idx - 1) / 2)
-      let parent = this.values[parentIdx]
-      if (element <= parent) break
-      this.values[parentIdx] = element
-      this.values[idx] = parent
-      idx = parentIdx
+    let index = this.values.length - 1
+    while (index >= 0) {
+      let parentIndex = Math.floor((index - 1) / 2)
+      if (this.values[index] > this.values[parentIndex]) {
+        let temp = this.values[parentIndex]
+        this.values[parentIndex] = this.values[index]
+        this.values[index] = temp
+        index = parentIndex
+      }
+      else break
     }
   }
-  extract() {
-    let root = this.values[0]
+  extractMax() {
+    let maxVal = this.values[0]
     this.values[0] = this.values[this.values.length - 1]
-    this.values[this.values.length - 1] = root
-    let currentIdx = 0
-    let leftChild = (currentIdx * 2) + 1
-    let rightChild = (currentIdx * 2) + 2
-
-    while (this.values[currentIdx] < this.values[leftChild] || this.values[currentIdx] < this.values[rightChild]) {
-      let toSwap = Math.max(this.values[rightChild], this.values[leftChild])
-      if (toSwap === this.values[rightChild]) {
-        this.values[rightChild] = this.values[currentIdx]
-        this.values[currentIdx] = toSwap
-        currentIdx = rightChild
+    this.values.pop()
+    let index = 0
+    while (index < this.values.length) {
+      let left = (index * 2) + 1
+      let right = (index * 2) + 2
+      let max = Math.max(this.values[left], this.values[right])
+      if (max === this.values[left] && this.values[index] < this.values[left]) {
+        index = left
+        let temp = this.values[left]
+        this.values[left] = this.values[index]
+        this.values[index] = temp
       }
       else {
-        this.values[leftChild] = this.values[currentIdx]
-        this.values[currentIdx] = toSwap
-        currentIdx = leftChild
+        if (max === this.values[right] && this.values[index] < this.values[right]) {
+          index = right
+          let temp = this.values[right]
+          this.values[right] = this.values[index]
+          this.values[index] = temp
+        }
+        else break
       }
-      leftChild = (currentIdx * 2) + 1
-      rightChild = (currentIdx * 2) + 2
     }
-    return this.values.pop()
+    return maxVal
   }
 }
-let heap = new MaxBinaryHeap()
-heap.insert(55)
-console.log(heap.values)
+test = new maxBinaryHeap([41, 39, 33, 18, 27, 12])
