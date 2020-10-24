@@ -915,7 +915,7 @@ function helper(string, letterHash) {
   else return false
 }
 
-console.log(findSubString('bloomberg', 'mooob'))
+console.log(findSubString('bloomberg', 'moo'))
 
 
 // Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path.
@@ -1409,7 +1409,6 @@ var merge = function (intervals) {
 const freeTime = (schedules) => {
   let flattened = schedules.flat()
   flattened.sort((a, b) => { return a[0] - b[0] })
-  console.log(flattened)
   let mergedSchedules = [flattened[0]]
   for (let i = 1; i < flattened.length; i++) {
     let latestInMerged = mergedSchedules[mergedSchedules.length - 1]
@@ -1418,7 +1417,6 @@ const freeTime = (schedules) => {
     }
     else mergedSchedules.push(flattened[i])
   }
-  console.log(mergedSchedules)
   const freeTimes = []
   if (mergedSchedules.length <= 1) return mergedSchedules
   for (let i = 0; i < mergedSchedules.length - 1; i++) {
