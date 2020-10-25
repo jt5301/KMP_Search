@@ -917,6 +917,51 @@ function helper(string, letterHash) {
 
 console.log(findSubString('bloomberg', 'moo'))
 
+//same q in Leetcode
+// Given two strings s1 and s2, write a function to return true if s2 contains the permutation of s1. In other words, one of the first string's permutations is the substring of the second string.
+
+
+
+// Example 1:
+
+// Input: s1 = "ab" s2 = "eidbaooo"
+// Output: True
+// Explanation: s2 contains one permutation of s1 ("ba").
+// Example 2:
+
+// Input:s1= "ab" s2 = "eidboaoo"
+// Output: False
+
+
+
+
+var checkInclusion = function (s1, s2) {
+  if (s1.length > s2.length) return false
+  let s1Hash = {}
+  for (let letter of s1) {
+    if (!s1Hash[letter]) s1Hash[letter] = 1
+    else s1Hash[letter] += 1
+  }
+  for (let i = 0; i < s2.length - s1.length + 1; i++) {
+    let s2Substring = s2.slice(i, i + s1.length)
+    if (compare(s1Hash, s2Substring)) return true
+  }
+  return false
+};
+
+function compare(hash, substring) {
+  let hash2 = {}
+  for (let letter of substring) {
+    if (!hash2[letter]) hash2[letter] = 1
+    else hash2[letter] += 1
+  }
+  for (let letter in hash2) {
+    if (hash2[letter] === hash[letter]) continue
+    else return false
+  }
+  return true
+}
+
 
 // Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path.
 
@@ -1769,6 +1814,7 @@ var maxAreaOfIsland = function (grid) {
 // Explanation: It could be decoded as "AB" (1 2) or "L" (12).
 
 var numDecodings = function (s) {
+  //build up dp array. first check 1 and 2 chars in string. '0' on its own is not valid
   if (s[0] === '0') return 0;
   if (s.length === 1) return 1
   let dp = [1]
@@ -1781,6 +1827,7 @@ var numDecodings = function (s) {
     else dp[1] = 1
   }
   if (s.length === 2) return dp[1]
+  //since '0' by itself is not valid, check if it can be part of prev char code.
   for (let i = 2; i < s.length; i++) {
     if (s[i] === '0') {
       if (s[i - 1] === '1' || s[i - 1] === '2') {
@@ -1789,6 +1836,7 @@ var numDecodings = function (s) {
       else return 0
     }
     else {
+      //if num is between 10 and 26, it can be decode in two ways. ex "15" and "1,5"
       let num = parseInt(s[i - 1] + s[i])
       if (num <= 26 && num > 10) {
         dp.push(dp[i - 2] + dp[i - 1])
@@ -1796,5 +1844,6 @@ var numDecodings = function (s) {
       else dp.push(dp[i - 1])
     }
   }
+  //after array is built up, return last number that represents last possibilities
   return dp[dp.length - 1]
 };
