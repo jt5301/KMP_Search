@@ -2034,3 +2034,46 @@ var merge = function (nums1, m, nums2, n) {
     p3 -= 1
   }
 }
+// You are given an integer array nums sorted in ascending order, and an integer target.
+
+// Suppose that nums is rotated at some pivot unknown to you beforehand (i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).
+
+// If target is found in the array return its index, otherwise, return -1.
+
+// Example 1:
+// Input: nums = [4,5,6,7,0,1,2], target = 0
+// Output: 4
+
+var search = function (nums, target) {
+  if (nums.length === 1) {
+    if (target != nums[0]) return -1
+    else return 0
+  }
+  let left = 0
+  let right = nums.length - 1
+  let pivot
+  while (true) {
+    let middle = Math.floor((left + right) / 2)
+    if (nums[left + 1] <= nums[left]) {
+      pivot = left + 1
+      break
+    }
+    if (middle === left) {
+      pivot = left
+      break
+    }
+    if (nums[right] < nums[middle]) left = middle
+    else right = middle
+  }
+  left = 0
+  right = nums.length - 1
+  while (nums[pivot] != target) {
+    if (target >= nums[pivot] && target <= nums[right]) left = pivot
+    else right = pivot - 1
+    pivot = Math.floor((left + right) / 2)
+    if (nums[left] === target) return left
+    if (nums[right] === target) return right
+    if (left === pivot || right === pivot) return -1
+  }
+  return pivot
+}
