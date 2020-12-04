@@ -2744,7 +2744,6 @@ var maxSlidingWindow = function(nums, k) {
   }
   let largestVal = findLargest(reset)
   maxArray.push(largestVal)
-  let counter = k
   while(k < nums.length){
       head.next = new Node(nums[k])
       head = head.next
