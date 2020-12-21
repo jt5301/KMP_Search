@@ -33,3 +33,33 @@ var twoCitySchedCost = function (costs) {
   return cityA + cityB
 };
 
+var twoCitySchedCost = function(costs) {
+  costs = costs.sort((a,b)=>{
+      let aDiff = Math.abs(a[0]-a[1])
+      let bDiff = Math.abs(b[0]-b[1])
+      return bDiff-aDiff
+  })
+  let cityA = 0
+  let cityACount = 0
+  let cityB = 0
+  let cityBCount = 0
+  let count = 0
+  while(cityACount < (costs.length/2) && cityBCount < (costs.length/2) ){
+      if(costs[count][0] <=costs[count][1]){
+          cityACount+=1
+          cityA+=costs[count][0]
+      }
+      else{
+          cityBCount+=1
+          cityB+=costs[count][1]
+      }
+      count+=1
+  }
+  for(let i = count;i<costs.length;i++){
+      if(cityACount <cityBCount){
+          cityA+=costs[i][0]
+      }
+      else cityB+=costs[i][1]
+  }
+  return cityA+cityB
+};
