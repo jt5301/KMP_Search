@@ -10,6 +10,7 @@
 // 4 1 8 3
 // The minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined above).
 
+//dp
 var minimumTotal = function (triangle) {
   let dpTriangle = []
   for (let i = 1; i < triangle.length + 1; i++) {
@@ -25,4 +26,28 @@ var minimumTotal = function (triangle) {
     }
   }
   return dpTriangle[0][0]
+}
+
+// brute force, where every possibility is tried. Times out on lc.
+var minimumTotal = function (triangle) {
+  let currentMin = Infinity
+
+  function pathfinder(remainingPath, runningSum, index) {
+    if (remainingPath.length === 0) {
+      currentMin = Math.min(currentMin, runningSum)
+      return
+    }
+    if (remainingPath[0][index] || remainingPath[0][index] == 0) {
+      runningSum += remainingPath[0][index]
+      pathfinder(remainingPath.slice(1), runningSum, index)
+      runningSum -= remainingPath[0][index]
+    }
+    if (remainingPath[0][index + 1] || remainingPath[0][index + 1] == 0) {
+      runningSum += remainingPath[0][index + 1]
+      pathfinder(remainingPath.slice(1), runningSum, index + 1)
+      runningSum -= remainingPath[0][index + 1]
+    }
+  }
+  pathfinder(triangle, 0, 0)
+  return currentMin
 }
