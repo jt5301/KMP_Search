@@ -17,13 +17,10 @@ var goodNodes = function (root) {
         if (!node) return
         if (node.val >= largestVal) {
             goodNodes += 1
-            isGood(node.left, node.val)
-            isGood(node.right, node.val)
+            largestVal = node.val
         }
-        else {
-            isGood(node.left, largestVal)
-            isGood(node.right, largestVal)
-        }
+        isGood(node.left, largestVal)
+        isGood(node.right, largestVal)
     }
     isGood(root.left, root.val)
     isGood(root.right, root.val)
