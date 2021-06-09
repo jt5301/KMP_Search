@@ -23,3 +23,20 @@ var merge = function (intervals) {
   }
   return mergedIntervals
 };
+
+var merge = function (intervals) {
+    intervals = intervals.sort((a, b) => {
+        if (a[0] === b[0]) return a[1] - b[1]
+        return a[0] - b[0]
+    })
+    let returnArray = [intervals[0]]
+    let toMerge = 0
+    for (let i = 1; i < intervals.length; i++) {
+        if (intervals[i][0] <= returnArray[toMerge][1]) returnArray[toMerge] = [returnArray[toMerge][0], Math.max(intervals[i][1], returnArray[toMerge][1])]
+        else {
+            returnArray.push(intervals[i])
+            toMerge += 1
+        }
+    }
+    return returnArray
+};
